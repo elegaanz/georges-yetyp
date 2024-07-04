@@ -1,16 +1,16 @@
-#import "../lib.typ": rapport
+#import "@preview/georges-yetyp:0.1.0": rapport
 
 #show: rapport.with(
-  nom: "Ana Gelez",
-  titre: "Contributions à Typst",
+  nom: "Georgette Lacourgette",
+  titre: "Titre du stage",
   entreprise: (
-    nom: "Typst GmbH",
+    nom: "Nom de l'entreprise",
     adresse: [
-      Wattstrße 11,
-      13355 Berlin, \
-      Allemagne
+      12 rue de la Chartreuse, \
+      38000 Grenoble, \
+      France
     ],
-    logo: image("typst.svg"),
+    logo: image("logo.png", height: 4em),
   ),
   responsable: (
     nom: "Jean Dupont",
@@ -19,14 +19,14 @@
     email: "jean@dupont.fr"
   ),
   tuteur: (
-    nom: "Jean Dupont",
+    nom: "Marie Dumoulin",
     téléphone: "+33 6 66 66 66 66",
-    email: "jean@dupont.fr"
+    email: "marie@dumoulin.org"
   ),
   référent: (
-    nom: "Jean Dupont",
+    nom: "Dominique Dupré",
     téléphone: "+33 6 66 66 66 66",
-    email: "jean@dupont.fr"
+    email: "dominique@dupre.fr"
   ),
   résumé: [
     #lorem(100)
@@ -47,12 +47,12 @@
 #lorem(50)
 
 #figure(
-  image("typst.svg"),
+  image("logo.png"),
   caption: [Le logo de l'entreprise]
 )
 
 #lorem(100)
-
+ 
 == Mes missions
 
 #lorem(50)

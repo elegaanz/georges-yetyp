@@ -172,17 +172,17 @@
       ]
     ],
     [
-      *Responsable administratif* #responsable.nom, #responsable.fonction \
+      *Responsable administratif⋅ve* #responsable.nom, #responsable.fonction \
       #responsable.téléphone \
       #responsable.email
     ],
     [
-      *Tuteur de stage* #tuteur.nom \
+      *Tuteur⋅ice de stage* #tuteur.nom \
       #tuteur.téléphone \
       #tuteur.email
     ],
     [
-      *Enseignant référent* #référent.nom \
+      *Enseignant⋅e référent⋅e* #référent.nom \
       #référent.téléphone \
       #référent.email
     ],
