@@ -1,10 +1,10 @@
-<a href="./thumbnail.png"><img alt="Preview of the front page" src="./thumbnail.png" style="float: right; max-width: 20em;"></a>
-
 # Georges Yétyp
 
 [French version](README.fr.md)
 
 Typst template for Polytech (Grenoble) internship reports.
+
+[![Preview of the front page](thumbnail.png)](thumbnail.png)
 
 ## Usage
 

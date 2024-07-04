@@ -1,10 +1,10 @@
-<a href="./thumbnail.png"><img alt="Preview of the front page" src="./thumbnail.png" style="float: right; max-width: 20em;"></a>
-
 # Georges Yétyp
 
 [Version anglaise](README.md)
 
 Modèle Typst pour les rapports de stage à Polytech (Grenoble).
+
+[![Exemple de page de garde](thumbnail.png)](thumbnail.png)
 
 ## Utilisation
 
