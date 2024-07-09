@@ -12,6 +12,9 @@
     ],
     logo: image("logo.png", height: 4em),
   ),
+  ecole: (
+    logo: image("logo-polytech.png", height: 4em)
+  ),
   responsable: (
     nom: "Jean Dupont",
     fonction: "CTO",
