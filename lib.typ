@@ -6,7 +6,7 @@
     téléphone: none,
     logo: none,
   ),
-  ecole: (
+  école: (
     logo: none,
   ),
   filière: "INFO",

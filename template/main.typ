@@ -12,8 +12,8 @@
     ],
     logo: image("logo.png", height: 4em),
   ),
-  ecole: (
-    logo: image("logo-polytech.png", height: 4em)
+  école: (
+    logo: image("logo-grenoble.png", height: 4em)
   ),
   responsable: (
     nom: "Jean Dupont",
