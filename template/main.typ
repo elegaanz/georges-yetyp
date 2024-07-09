@@ -12,6 +12,9 @@
     ],
     logo: image("logo.png", height: 4em),
   ),
+  école: (
+    logo: image("logo-grenoble.png", height: 4em)
+  ),
   responsable: (
     nom: "Jean Dupont",
     fonction: "CTO",

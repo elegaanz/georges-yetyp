@@ -6,6 +6,9 @@
     téléphone: none,
     logo: none,
   ),
+  école: (
+    logo: none,
+  ),
   filière: "INFO",
   année: 5,
   titre: none,
@@ -62,7 +65,7 @@
     columns: (1fr, 1fr),
     column-gutter: 5em,
     row-gutter: 1em,
-    align(horizon, image("logo-polytech.png")),
+    align(horizon, ecole.logo),
     ..entreprise-info
   )
 
