@@ -1,3 +1,44 @@
+#let trads = (
+  fr: (
+    summary: [Résumé],
+    student: [Étudiant⋅e],
+    year: [Année d'étude dans la spécialité],
+    year-value: year => [#year#super[ème] année],
+    company: [Entreprise],
+    address: [Adresse],
+    responsable: [Responsable administratif⋅ve],
+    tuteur: [Tuteur⋅ice de stage],
+    référent: [Enseignant⋅e référent⋅e],
+    title: [Titre],
+    bibliography: [Bibliographie],
+    figures: [Table des figures],
+    glossary: [Glossaire],
+    appendices: [Annexes],
+    report: year => [Rapport de stage de #year#super(ème) année],
+    book-name: [Tome principal \ & \ Annexes],
+    uni-year: (from, to) => [Année universitaire #from -- #to],
+  ),
+  en: (
+    summary: [Summary],
+    student: [Student],
+    year: [Study year in the department],
+    year-value: year => [#year#super[th] year],
+    company: [Company],
+    address: [Address],
+    responsable: [Administrative manager],
+    tuteur: [Internship mentor],
+    référent: [Referent teacher],
+    title: [Title],
+    bibliography: [Bibliography],
+    figures: [Figures],
+    glossary: [Glossary],
+    appendices: [Appendices],
+    report: year => [#year#super(if year == 3 { "rd" } else { "th"}) year internship report],
+    book-name: [Main book \ & \ Appendices],
+    uni-year: (from, to) => [University year #from -- #to],
+  )
+)
+
 #let rapport(
   nom: none,
   entreprise: (
@@ -17,12 +58,32 @@
   fonte: "New Computer Modern",
   glossaire: none,
   lang: "fr",
+  bibliographie: none,
+  annexes-extra: none,
   body
 ) = {
-  set text(lang: lang, font: fonte, size: 12pt)
+  let fontes-dict = if type(fonte) == str {
+    (
+      corps: fonte,
+      titres: fonte,
+    )
+  } else {
+    fonte
+  }
+
+  set text(lang: lang, font: fontes-dict.corps, size: 12pt)
   set par(justify: true, leading: 0.8em)
   set heading(numbering: "I.1 -")
   show heading: block.with(spacing: 1.5em)
+  show heading: set text(font: fontes-dict.titres)
+  set bibliography(title: none)
+
+  show raw.where(block: false, lang: none): set text(fill: purple)
+  show link: set text(fill: blue)
+
+  if lang != "fr" and lang != "en" {
+    panic("Ce template n'est disponible qu'en français et en anglais")
+  }
 
   if nom == none {
     panic("`nom` doit être une chaîne de caractère (avec votre nom et prénom)")
@@ -39,6 +100,8 @@
   if entreprise.nom == none {
     panic("`entreprise.nom` doit être une chaîne de caractères ou un bloc de contenu")
   }
+
+  let trad = trads.at(lang)
 
   let entreprise-text-info = align(horizon + right, {
     text(size: 14pt, entreprise.nom)
@@ -57,64 +120,71 @@
   } else {
     (entreprise-text-info,)
   }
-  
-  grid(
-    columns: (1fr, 1fr),
-    column-gutter: 5em,
-    row-gutter: 1em,
-    align(horizon, image("logo-polytech.png")),
-    ..entreprise-info
-  )
 
-  v(1fr)
+  {    
+    grid(
+      columns: (1fr, 1fr),
+      column-gutter: 5em,
+      row-gutter: 1em,
+      align(horizon, image("logo-polytech.png")),
+      ..entreprise-info
+    )
 
-  align(center, [
-    #set text(size: 16pt)
-    #nom \
-    #filière \
-    Rapport de stage de #année#super[ème] année
+    v(1fr)
+    align(center, [
+      #set text(size: 16pt)
+      #nom \
+      #filière \
+      #trad.at("report")(année)
 
-    #v(1fr)
+      #v(1fr)
 
-    #smallcaps(text(size: 20pt, titre))
+      #{
+        set par(justify: false)
+        box(width: 60%, smallcaps(heading(outlined: false, numbering: none, text(size: 20pt, titre))))
+      }
 
-    #v(1fr)
-    
-    Tome principal \ & \ Annexes
+      #v(1fr)
 
-    #v(1fr)
+      #trad.book-name
 
-    #let year = datetime.today().year()
+      #v(1fr)
 
-    Année universitaire #{year - 1}--#{year} \
-    #période
-  ])
+      #let year = datetime.today().year()
 
+      #trad.at("uni-year")(year - 1, year) \
+      #période
+    ])
+  }
 
   pagebreak()
   {
     set page(header: context {
-      let headings-after = query(
-        selector(heading.where(outlined: true)).after(here())
+      let headings-before = query(
+        selector(heading.where(outlined: true)).before(here())
       )
-      let heading = if headings-after.len() == 0 {
+
+      let heading = if headings-before.len() == 0 {
         query(
-          selector(heading.where(outlined: true)).before(here())
-        ).last()
+        selector(heading.where(outlined: true)).after(here())
+      ).first()
       } else {
-        headings-after.first()
+        headings-before.last()
       }
+
+      set text(size: 9pt)
       grid(
         columns: (1fr, auto),
         emph(titre),
-        emph(heading.body)
+        emph([#heading.body])
       )
     }, numbering: "1")
 
     show figure: it => align(center, block(spacing: 3em, it))
-    
+
+    show raw: set text(font: ("Fira Code", "FiraCode", "FiraCode Nerd Font"))
+
     show raw.where(block: true): it => {
-      set text(font: "Fira Code")
       block(
         width: 110%,
         stroke: 1pt + gray,
@@ -127,34 +197,84 @@
     {
       set page(header: none)
       v(1fr)
-      align(center, heading(outlined: false, numbering: none, [Résumé]))
-      align(center, block(width: 80%, align(left, résumé)))
+
+      let summary = (title, contents) => {
+        align(center, heading(outlined: false, numbering: none, title))
+        align(center, block(width: 80%, align(left, contents)))
+        v(0.5fr) 
+      }
+
+      if type(résumé) == dictionary {
+        for (l, t) in trads {
+          if l in résumé {
+          summary(t.summary, résumé.at(l))
+          }
+        }
+      } else {
+        summary(trad.summary, résumé)
+      }
+
       v(1fr)
-  
+
       pagebreak()
-  
+
       outline(indent: auto)
     }
-    
+
+    show heading.where(level: 1): it => {
+      pagebreak(weak: true)
+      it
+    }
+
     body 
 
     pagebreak()
 
     set page(header: none)
 
-    heading(numbering: none, outlined: false, [Annexes])
+    heading(numbering: none, outlined: false, [#trad.appendices])
+
+    if annexes-extra != none {
+      annexes-extra
+    }
 
     if glossaire != none {
-      heading(numbering: none, outlined: false, level: 2, [Glossaire])
+      heading(numbering: none, outlined: false, level: 2, [#trad.glossary])
       glossaire
     }
-    
-    heading(numbering: none, outlined: false, level: 2, [Table des figures])
+
+    heading(numbering: none, outlined: false, level: 2, [#trad.figures])
 
     outline(target: figure, title: none)
+
+    if bibliographie != none {
+      heading(numbering: none, outlined: false, level: 2, [#trad.bibliography])
+      bibliographie
+    }
   }
 
   pagebreak()
+
+  let résumé-contents = if type(résumé) == str {
+    résumé
+  } else {
+    résumé.at(lang)
+  }
+
+  let personne = (p) => {
+    if "fonction" in p [
+      #p.nom, #p.fonction
+    ] else {
+      p.nom
+    }
+    linebreak()
+    if "téléphone" in p [
+      #p.téléphone \
+    ]
+    if "email" in p [
+      #p.email
+    ]
+  }
 
   show strong: it => text(size: 10pt, [#it \ ])
   set table.cell(colspan: 2)
@@ -162,31 +282,25 @@
     columns: (1fr, 1fr),
     gutter: 1em,
     stroke: none,
-    table.cell(colspan: 1, [*Étudiant⋅e* #nom]),
-    table.cell(colspan: 1, align(right, [*Année d'étude dans la spécialité* #année#super[ème] année])),
+    table.cell(colspan: 1, [*#trad.student* #nom]),
+    table.cell(colspan: 1, align(right, [*#trad.year* #trad.at("year-value")(année)])),
     [
-      *Entreprise* #entreprise.nom \
-      *Adresse* #entreprise.adresse \
+      *#trad.company* #entreprise.nom \
+      *#trad.address* #entreprise.adresse \
       #if "téléphone" in entreprise [
-        *Téléphone* #entreprise.téléphone
+        *#trad.phone* #entreprise.téléphone
       ]
     ],
     [
-      *Responsable administratif⋅ve* #responsable.nom, #responsable.fonction \
-      #responsable.téléphone \
-      #responsable.email
+      *#trad.responsable* #personne(responsable)
     ],
     [
-      *Tuteur⋅ice de stage* #tuteur.nom \
-      #tuteur.téléphone \
-      #tuteur.email
+      *#trad.tuteur* #personne(tuteur)
     ],
     [
-      *Enseignant⋅e référent⋅e* #référent.nom \
-      #référent.téléphone \
-      #référent.email
+      *#trad.référent* #personne(référent)
     ],
-    [*Titre* #titre],
-    [*Résumé* #résumé]
+    [*#trad.title* #titre],
+    [*#trad.summary* #résumé-contents]
   )
 }
