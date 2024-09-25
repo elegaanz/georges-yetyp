@@ -1,4 +1,4 @@
-#import "@preview/georges-yetyp:0.1.0": rapport
+#import "@preview/georges-yetyp:0.2.0": rapport
 
 #show: rapport.with(
   nom: "Georgette Lacourgette",
