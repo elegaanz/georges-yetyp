@@ -14,7 +14,7 @@
     figures: [Table des figures],
     glossary: [Glossaire],
     appendices: [Annexes],
-    report: year => [Rapport de stage de #year#super(ème) année],
+    report: year => [Rapport de stage de #year#super[ème] année],
     book-name: [Tome principal \ & \ Annexes],
     uni-year: (from, to) => [Année universitaire #from -- #to],
   ),
@@ -255,10 +255,10 @@
 
   pagebreak()
 
-  let résumé-contents = if type(résumé) == str {
-    résumé
-  } else {
+  let résumé-contents = if type(résumé) == dictionary {
     résumé.at(lang)
+  } else {
+    résumé
   }
 
   let personne = (p) => {
