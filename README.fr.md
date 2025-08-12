@@ -34,3 +34,15 @@ On peut écrire une version française et anglaise du résumé de notre rapport 
         ]
     )
 ```
+
+## Documents supplémentaires dans les annexes
+
+On peut ajouter des documents additionnels dans les annexes en utilisant le paramètre `annexes-extra` :
+
+```typst
+    annexes-extra: [
+        #figure(image("document.png"),
+            caption: [Document supplémentaire]
+        )
+    ]
+```

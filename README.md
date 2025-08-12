@@ -34,3 +34,15 @@ You can write a French and an English version of your summary by making it a dic
         ]
     )
 ```
+
+## Extra documents in annexes
+
+You can add additionnal documents in the annexes using `annexes-extra`:
+
+```typst
+    annexes-extra: [
+        #figure(image("document.png"),
+            caption: [Extra document]
+        )
+    ]
+```
