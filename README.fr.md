@@ -25,14 +25,14 @@ Supporter d'autres écoles du réseau Polytech devrait être relativement simple
 On peut écrire une version française et anglaise du résumé de notre rapport en en faisant un dictionnaire en paramètre de notre appel de fonction :
 
 ```typst
-    résumé: (
-        fr: [
-            Résumé en français.
-        ],
-        en: [
-            English summary.
-        ]
-    )
+résumé: (
+  fr: [
+    Résumé en français.
+  ],
+  en: [
+    English summary.
+  ]
+)
 ```
 
 ## Documents supplémentaires dans les annexes
@@ -40,9 +40,10 @@ On peut écrire une version française et anglaise du résumé de notre rapport 
 On peut ajouter des documents additionnels dans les annexes en utilisant le paramètre `annexes-extra` :
 
 ```typst
-    annexes-extra: [
-        #figure(image("document.png"),
-            caption: [Document supplémentaire]
-        )
-    ]
+annexes-extra: [
+  #figure(
+    image("document.png"),
+    caption: [Document supplémentaire]
+  )
+]
 ```

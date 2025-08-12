@@ -25,24 +25,25 @@ Adding support for other schools of the Polytech network would be fairly easy if
 You can write a French and an English version of your summary by making it a dictionnary in your function call parameters:
 
 ```typst
-    résumé: (
-        fr: [
-            Résumé en français.
-        ],
-        en: [
-            English summary.
-        ]
-    )
+résumé: (
+  fr: [
+    Résumé en français.
+  ],
+  en: [
+    English summary.
+  ]
+)
 ```
 
-## Extra documents in annexes
+## Extra documents in appendices
 
-You can add additionnal documents in the annexes using `annexes-extra`:
+You can add additionnal documents in the appendices using `annexes-extra`:
 
 ```typst
-    annexes-extra: [
-        #figure(image("document.png"),
-            caption: [Extra document]
-        )
-    ]
+annexes-extra: [
+  #figure(
+    image("document.png"),
+    caption: [Extra document]
+  )
+]
 ```
