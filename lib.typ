@@ -33,10 +33,10 @@
     figures: [Figures],
     glossary: [Glossary],
     appendices: [Appendices],
-    report: year => [#year#super(if year == 3 { "rd" } else { "th"}) year internship report],
+    report: year => [#year#super(if year == 3 { "rd" } else { "th" }) year internship report],
     book-name: [Main book \ & \ Appendices],
     uni-year: (from, to) => [University year #from -- #to],
-  )
+  ),
 )
 
 #let rapport(
@@ -45,6 +45,9 @@
     nom: none,
     adresse: none,
     téléphone: none,
+    logo: none,
+  ),
+  école: (
     logo: none,
   ),
   filière: "INFO",
@@ -60,7 +63,7 @@
   lang: "fr",
   bibliographie: none,
   annexes-extra: none,
-  body
+  body,
 ) = {
   let fontes-dict = if type(fonte) == str {
     (
@@ -93,8 +96,8 @@
     panic("`titre` doit être une chaîne de caractère (avec le titre du rapport)")
   }
 
-  if type(entreprise) !=  dictionary {
-    panic("`entreprise` doit être un dictionnaire contenant `nom`, `adresse` et éventuellemenent `téléphone` et `logo`")    
+  if type(entreprise) != dictionary {
+    panic("`entreprise` doit être un dictionnaire contenant `nom`, `adresse` et éventuellemenent `téléphone` et `logo`")
   }
 
   if entreprise.nom == none {
@@ -112,22 +115,22 @@
     (
       align(
         right + horizon,
-        entreprise.logo
+        entreprise.logo,
       ),
       [],
-      entreprise-text-info
+      entreprise-text-info,
     )
   } else {
     (entreprise-text-info,)
   }
 
-  {    
+  {
     grid(
       columns: (1fr, 1fr),
       column-gutter: 5em,
       row-gutter: 1em,
-      align(horizon, image("logo-polytech.png")),
-      ..entreprise-info
+      align(horizon, ecole.logo),
+      ..entreprise-info,
     )
 
     v(1fr)
@@ -159,26 +162,28 @@
 
   pagebreak()
   {
-    set page(header: context {
-      let headings-before = query(
-        selector(heading.where(outlined: true)).before(here())
-      )
+    set page(
+      header: context {
+        let headings-before = query(
+          selector(heading.where(outlined: true)).before(here()),
+        )
 
-      let heading = if headings-before.len() == 0 {
-        query(
-        selector(heading.where(outlined: true)).after(here())
-      ).first()
-      } else {
-        headings-before.last()
-      }
+        let heading = if headings-before.len() == 0 {
+          query(
+            selector(heading.where(outlined: true)).after(here()),
+          ).first()
+        } else {
+          headings-before.last()
+        }
 
-      set text(size: 9pt)
-      grid(
-        columns: (1fr, auto),
-        emph(titre),
-        emph([#heading.body])
-      )
-    }, numbering: "1")
+        set text(size: 9pt)
+        grid(
+          columns: (1fr, auto),
+          emph(titre), emph([#heading.body]),
+        )
+      },
+      numbering: "1",
+    )
 
     show figure: it => align(center, block(spacing: 3em, it))
 
@@ -190,7 +195,7 @@
         stroke: 1pt + gray,
         radius: 0.2em,
         inset: (y: 1em, x: 5%),
-        align(left, it)
+        align(left, it),
       )
     }
 
@@ -201,13 +206,13 @@
       let summary = (title, contents) => {
         align(center, heading(outlined: false, numbering: none, title))
         align(center, block(width: 80%, align(left, contents)))
-        v(0.5fr) 
+        v(0.5fr)
       }
 
       if type(résumé) == dictionary {
         for (l, t) in trads {
           if l in résumé {
-          summary(t.summary, résumé.at(l))
+            summary(t.summary, résumé.at(l))
           }
         }
       } else {
@@ -226,7 +231,7 @@
       it
     }
 
-    body 
+    body
 
     pagebreak()
 
@@ -261,7 +266,7 @@
     résumé
   }
 
-  let personne = (p) => {
+  let personne = p => {
     if "fonction" in p [
       #p.nom, #p.fonction
     ] else {
@@ -301,6 +306,6 @@
       *#trad.référent* #personne(référent)
     ],
     [*#trad.title* #titre],
-    [*#trad.summary* #résumé-contents]
+    [*#trad.summary* #résumé-contents],
   )
 }
