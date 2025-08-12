@@ -19,3 +19,31 @@ Ensuite, il faut remplacer `logo.png` avec le logo de l'entreprise dans laquelle
 ## Autres écoles
 
 Supporter d'autres écoles du réseau Polytech devrait être relativement simple, si vous voulez réutiliser ce modèle. Il y a seulement besoin du logo de l'école (avec l'autorisation de l'utiliser). Les contributions sont les bienvenues.
+
+## Résumés en plusieurs langages
+
+On peut écrire une version française et anglaise du résumé de notre rapport en en faisant un dictionnaire en paramètre de notre appel de fonction :
+
+```typst
+résumé: (
+  fr: [
+    Résumé en français.
+  ],
+  en: [
+    English summary.
+  ]
+)
+```
+
+## Documents supplémentaires dans les annexes
+
+On peut ajouter des documents additionnels dans les annexes en utilisant le paramètre `annexes-extra` :
+
+```typst
+annexes-extra: [
+  #figure(
+    image("document.png"),
+    caption: [Document supplémentaire]
+  )
+]
+```

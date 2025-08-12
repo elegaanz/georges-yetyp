@@ -19,3 +19,31 @@ Then, replace `logo.png` with the logo of the company you worked for, fill in al
 ## Other schools
 
 Adding support for other schools of the Polytech network would be fairly easy if you want to re-use this template. All that is needed is a copy of their logo (with the authorization to use it). Submissions are welcome.
+
+## Multiple languages for summaries
+
+You can write a French and an English version of your summary by making it a dictionnary in your function call parameters:
+
+```typst
+résumé: (
+  fr: [
+    Résumé en français.
+  ],
+  en: [
+    English summary.
+  ]
+)
+```
+
+## Extra documents in appendices
+
+You can add additionnal documents in the appendices using `annexes-extra`:
+
+```typst
+annexes-extra: [
+  #figure(
+    image("document.png"),
+    caption: [Extra document]
+  )
+]
+```
